@@ -1,0 +1,9 @@
+- [x] Create pages/blog/[slug].js with getStaticPaths, getStaticProps, and BlogPage component, including console.log for API response, try/catch error handling, and slug mapping (fallback to id if needed).
+- [x] Create centralized API helper lib/api.js with fetch, AbortController, timeout (8s), 2 retries with exponential backoff, descriptive errors.
+- [x] Update pages/[slug].js: getStaticPaths to fetch slugs from /api/pages/list, getStaticProps to use apiFetch, handle 404/notFound, error props, check published status.
+- [x] Update pages/blog/[slug].js to use apiFetch in getStaticPaths.
+- [x] Update lib/fetchPageData.js to use apiFetch.
+- [x] Fix pages/lib/fetchDynamicPage.js: remove duplicate fetch, use apiFetch.
+- [x] Update pages/index.jsx, pages/academics.jsx, pages/admissions.jsx to use apiFetch.
+- [x] Fix comment in pages/templates/DefaultTemplate.jsx (remove 'b').
+- [x] Add conditional rendering for published status in pages/[slug].js.

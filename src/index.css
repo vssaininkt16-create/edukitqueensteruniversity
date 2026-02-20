@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* ================================
+   GLOBAL VARIABLES
+================================ */
+:root {
+  --header-height: 170px;
+}
+
+/* ================================
+   Queenster   TYPOGRAPHY
+================================ */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #1a1a1a;
+  background-color: #ffffff;
+}
+
+.app-main {
+  padding-top: var(--header-height);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 0.3px;
+}
+
+/* ================================
+   GLOBAL RESET
+================================ */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+* { box-sizing: border-box; }
+body { line-height: 1.5; }
+
+/* ================================
+   HARD LOCK — STOP HORIZONTAL OVERFLOW
+================================ */
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+/* ================================
+   MEDIA SAFETY
+================================ */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ================================
+    OVERRIDE TAILWIND w-screen BUG
+================================ */
+.w-screen {
+  width: 100% !important;
+}
