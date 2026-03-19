@@ -779,9 +779,10 @@ export default function DefaultTemplate({ pageData = {}, contentBlock = {} }) {
 
   const hero = {
     ...heroFromBackend,
-    // ✅ FIX 3: Pass correct heading to HeroGlass
     heading: heroHeading,
-    media: backendMedia || (isHomePage ? USER_HOME_VIDEO : heroFromBackend?.media || ""),
+    media: heroFromBackend?.advanceData?.data?.slides?.length > 0
+      ? (heroFromBackend?.media || "")
+      : (backendMedia || (isHomePage ? USER_HOME_VIDEO : heroFromBackend?.media || "")),
   };
 
   const isAthletics = /athletics/i.test(pageTitle) || urlKey.includes("athletics");

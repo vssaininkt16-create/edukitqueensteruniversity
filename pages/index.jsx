@@ -4,28 +4,32 @@ import apiFetch from '../lib/api';
 export async function getStaticProps() {
   try {
     const apiResponse = await apiFetch('/api/s/dynamic-page/new-home-page?contentBlock=Object', {
-      headers: {
-        apihost: 'https://schooltheme1.institute.org.in',
-      },
+      headers: { apihost: 'https://schooltheme1.institute.org.in' },
     });
-    const contentBlock = apiResponse.data.contentBlock;
-    console.log('HERO:', contentBlock?.HERO_CONTENT?.heading);
+
     return {
       props: {
-        contentBlock: contentBlock,
-        pageData: apiResponse.data.pageData
+        contentBlock: apiResponse?.data?.contentBlock || {},
+        pageData:     apiResponse?.data?.pageData     || {},
+        websiteData:  apiResponse?.websiteData        || {},
       },
       revalidate: 60,
     };
   } catch (error) {
     console.error('API fetch failed:', error);
     return {
-      props: { contentBlock: {}, pageData: {} },
+      props: { contentBlock: {}, pageData: {}, websiteData: {} },
       revalidate: 60,
     };
   }
 }
 
-export default function HomePage({ pageData, contentBlock }) {
-  return <DefaultTemplate pageData={pageData} contentBlock={contentBlock} />;
+export default function HomePage({ pageData, contentBlock, websiteData }) {
+  return (
+    <DefaultTemplate
+      pageData={pageData}
+      contentBlock={contentBlock}
+      websiteData={websiteData}
+    />
+  );
 }
