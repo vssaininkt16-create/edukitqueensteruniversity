@@ -1,177 +1,141 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
 
-const alumniData = [
-  {
-    name: 'John Smith',
-    major: 'Computer Science',
-    year: 2018,
-    image: 'https://randomuser.me/api/portraits/men/32.jpg',
-  },
-  {
-    name: 'Emily Johnson',
-    major: 'Business Administration',
-    year: 2019,
-    image: 'https://randomuser.me/api/portraits/women/44.jpg',
-  },
-  {
-    name: 'Michael Williams',
-    major: 'Mechanical Engineering',
-    year: 2017,
-    image: 'https://randomuser.me/api/portraits/men/34.jpg',
-  },
-    {
-    name: 'Jessica Brown',
-    major: 'Graphic Design',
-    year: 2020,
-    image: 'https://randomuser.me/api/portraits/women/55.jpg',
-  },
-  {
-    name: 'Sarah Miller',
-    major: 'Psychology',
-    year: 2021,
-    image: 'https://randomuser.me/api/portraits/women/68.jpg',
-  },
+const ALUMNI = [
+  { name: "John Smith",      major: "Computer Science",    year: 2018, role: "Senior Engineer @ Google",        img: "https://i.pravatar.cc/150?img=32", quote: "Queenster gave me the technical foundation and problem-solving mindset that Google looks for." },
+  { name: "Emily Johnson",   major: "Business Administration", year: 2019, role: "Co-founder, FinVault",        img: "https://i.pravatar.cc/150?img=44", quote: "The entrepreneurship programme here shaped my thinking and gave me the courage to start my own company." },
+  { name: "Michael Williams",major: "Mechanical Engineering",  year: 2017, role: "Lead Designer @ Tesla",       img: "https://i.pravatar.cc/150?img=18", quote: "The hands-on labs and research culture at Queenster prepared me for real-world innovation." },
+  { name: "Aisha Patel",     major: "Medicine",             year: 2020, role: "Resident Physician, AIIMS Delhi", img: "https://i.pravatar.cc/150?img=47", quote: "The clinical exposure and mentorship I received here were second to none." },
+  { name: "Carlos Mendez",   major: "Liberal Arts",         year: 2016, role: "Policy Analyst, UN",             img: "https://i.pravatar.cc/150?img=12", quote: "My cross-disciplinary education at Queenster prepared me for work on the global stage." },
+  { name: "Li Wei",          major: "Computer Science",     year: 2021, role: "ML Researcher @ DeepMind",       img: "https://i.pravatar.cc/150?img=60", quote: "The AI research lab here gave me a direct path to cutting-edge machine learning work." },
 ];
 
-const testimonialsData = [
-  {
-    name: 'Dr. Anya Sharma',
-    title: 'Chief Medical Officer, HealthCorp',
-    quote: 'The rigorous academic program and supportive faculty at this university were instrumental in shaping my career in medicine.',
-    image: 'https://randomuser.me/api/portraits/women/70.jpg',
-  },
-  {
-    name: 'Ben Carter',
-    title: 'Software Engineer, Tech Solutions',
-    quote: 'I gained practical skills and a strong foundation in computer science that directly contributed to my success in the tech industry.',
-    image: 'https://randomuser.me/api/portraits/men/71.jpg',
-  },
-  {
-    name: 'Chloe Davis',
-    title: 'Award-Winning Journalist',
-    quote: 'The communication department fostered my critical thinking and storytelling abilities, leading me to a fulfilling career in journalism.',
-    image: 'https://randomuser.me/api/portraits/women/72.jpg',
-  },
+const EVENTS = [
+  { title: "Annual Alumni Gala 2025",    date: "Nov 15, 2025", location: "Queenster Grand Hall",  desc: "An evening of reconnection, celebration, and networking with 500+ alumni." },
+  { title: "Tech & Innovation Summit",   date: "Dec 8, 2025",  location: "Engineering Block",     desc: "Alumni-led talks on emerging technologies shaping the next decade." },
+  { title: "Global Alumni Meetup — NYC", date: "Jan 20, 2026", location: "New York, USA",         desc: "Connect with fellow Queenster alumni in the heart of New York City." },
 ];
 
-const eventsData = [
-  {
-    title: 'Annual Alumni Reunion',
-    date: 'October 26, 2024',
-    location: 'University Campus, Main Hall',
-    description: 'Join us for our annual reunion to reconnect with old friends, faculty, and celebrate our shared memories.',
-    link: '#',
-  },
-  {
-    title: 'Alumni Networking Mixer',
-    date: 'November 15, 2024',
-    location: 'Downtown Marriott, Grand Ballroom',
-    description: 'An exclusive opportunity to network with fellow alumni and expand your professional connections.',
-    link: '#',
-  },
-  {
-    title: 'Guest Lecture Series: Future of AI',
-    date: 'December 5, 2024',
-    location: 'Online Webinar',
-    description: 'A thought-provoking lecture by Dr. Anya Sharma on the advancements and ethical considerations of Artificial Intelligence.',
-    link: '#',
-  },
+const INVOLVE = [
+  { icon: "🧑‍🏫", title: "Mentor Students",    desc: "Guide current students as they navigate their academic and career journeys.", cta: "Become a Mentor" },
+  { icon: "🙋",   title: "Volunteer",          desc: "Contribute your time and skills to university initiatives and events.",         cta: "See Opportunities" },
+  { icon: "💛",   title: "Give Back",          desc: "Support scholarships, research, and campus development through donations.",      cta: "Make a Donation" },
 ];
 
-const Alumni = () => {
+export default function Alumni() {
+  const [expanded, setExpanded] = useState(null);
+
   return (
-    <div className="bg-white">
-      {/* Hero Section */}
-      <section className="bg-cover bg-center py-40" style={{ backgroundImage: `url('/about-university-bg.jpg')` }}>
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold text-white">Our Alumni</h1>
-          <p className="text-lg text-white mt-4">Connecting our past, present, and future.</p>
+    <div style={{ background: "#071428", color: "#fff", minHeight: "100vh" }}>
+
+      {/* HERO */}
+      <section className="relative pt-32 pb-24 px-6 overflow-hidden"
+        style={{ background: "linear-gradient(135deg,#0e2a4a 0%,#071428 100%)" }}>
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(ellipse at 80% 30%, rgba(249,115,22,0.09) 0%, transparent 60%)" }} />
+        <div className="relative max-w-4xl mx-auto text-center">
+          <span className="inline-flex items-center gap-2 text-orange-400 text-xs font-bold tracking-[0.22em] uppercase mb-5">
+            <span className="h-px w-6 bg-orange-400" /> Alumni Network
+          </span>
+          <h1 className="text-5xl md:text-6xl font-black leading-tight">
+            Our <span className="text-orange-400">Alumni</span>
+          </h1>
+          <p className="mt-6 text-white/60 text-lg max-w-xl mx-auto leading-relaxed">
+            50,000+ graduates across 120 countries — shaping industries, leading organisations, and changing lives.
+          </p>
         </div>
       </section>
 
-      {/* Alumni Grid */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            {alumniData.map((alumnus, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-8 text-center hover:shadow-xl transition-shadow duration-300">
-                <img src={alumnus.image} alt={alumnus.name} className="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-white shadow-lg" />
-                <h3 className="text-2xl font-bold text-[#152e5a]">{alumnus.name}</h3>
-                <p className="text-gray-500 mt-2">Department: {alumnus.major}</p>
-                <p className="text-[#fec726] font-semibold">Class of {alumnus.year}</p>
-              </div>
-            ))}
+      {/* STATS */}
+      <section className="py-14 px-6" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {[["50k+","Alumni Worldwide"],["120","Countries"],["85%","Employment Rate"],["₹18L","Avg. Starting Package"]].map(([v,l])=>(
+            <div key={l}>
+              <div className="text-4xl font-black text-orange-400">{v}</div>
+              <div className="text-white/40 text-sm mt-2">{l}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FEATURED ALUMNI */}
+      <section className="py-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-black text-white">Alumni Spotlight</h2>
+            <p className="mt-3 text-white/40 max-w-lg mx-auto">Graduates making their mark across industries worldwide.</p>
           </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-24 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold text-[#152e5a] mb-12">Alumni Testimonials</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {testimonialsData.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-8 hover:shadow-xl transition-shadow duration-300">
-                <p className="text-gray-600 italic mb-6">"{testimonial.quote}"</p>
-                <div className="flex items-center justify-center">
-                  <img src={testimonial.image} alt={testimonial.name} className="w-16 h-16 rounded-full mr-4 border-2 border-[#fec726]" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {ALUMNI.map((a, i) => (
+              <div key={i} onClick={() => setExpanded(expanded === i ? null : i)}
+                className="rounded-2xl p-6 border cursor-pointer transition-all duration-300"
+                style={{ background: expanded === i ? "rgba(249,115,22,0.08)" : "rgba(255,255,255,0.03)", borderColor: expanded === i ? "rgba(249,115,22,0.4)" : "rgba(255,255,255,0.08)" }}>
+                <div className="flex items-center gap-4 mb-4">
+                  <img src={a.img} alt={a.name} className="w-14 h-14 rounded-2xl object-cover border border-white/15" />
                   <div>
-                    <h4 className="text-lg font-bold text-[#152e5a]">{testimonial.name}</h4>
-                    <p className="text-gray-500">{testimonial.title}</p>
+                    <div className="font-bold text-white text-sm">{a.name}</div>
+                    <div className="text-white/45 text-xs">{a.role}</div>
                   </div>
                 </div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-semibold text-orange-400 bg-orange-400/10 px-3 py-1 rounded-full">{a.major}</span>
+                  <span className="text-white/30 text-xs">Class of {a.year}</span>
+                </div>
+                {expanded === i && (
+                  <p className="text-white/60 text-sm leading-relaxed mt-3 italic border-t border-white/10 pt-3">"{a.quote}"</p>
+                )}
+                {expanded !== i && (
+                  <p className="text-white/35 text-xs mt-2">Click to read their story →</p>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Alumni Events Section */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold text-[#152e5a] mb-12">Upcoming Alumni Events</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {eventsData.map((event, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-8 text-left hover:shadow-xl transition-shadow duration-300">
-                <h3 className="text-2xl font-bold text-[#152e5a] mb-2">{event.title}</h3>
-                <p className="text-gray-600 mb-4">{event.date} | {event.location}</p>
-                <p className="text-gray-700">{event.description}</p>
-                <a href={event.link} className="text-[#fec726] hover:underline mt-4 inline-block">Learn More</a>
+      {/* UPCOMING EVENTS */}
+      <section className="py-20 px-6" style={{ background: "rgba(255,255,255,0.02)", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-white">Upcoming Alumni Events</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {EVENTS.map((e, i) => (
+              <div key={i} className="rounded-2xl p-6 border border-white/10 hover:border-orange-500/30 transition-colors"
+                style={{ background: "rgba(255,255,255,0.03)" }}>
+                <div className="text-orange-400 text-xs font-bold mb-3">{e.date}</div>
+                <h3 className="font-bold text-white text-base mb-1">{e.title}</h3>
+                <p className="text-white/40 text-xs mb-3">📍 {e.location}</p>
+                <p className="text-white/55 text-sm leading-relaxed">{e.desc}</p>
+                <button className="mt-4 text-orange-400 text-sm font-semibold hover:text-orange-300 transition-colors">Register →</button>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Get Involved Section */}
-      <section className="py-24 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold text-[#152e5a] mb-12">Get Involved</h2>
-          <p className="text-lg text-gray-700 mb-8 max-w-3xl mx-auto">
-            There are many ways to stay connected and support your alma mater.
-            Explore the opportunities below to make a lasting impact.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-              <h3 className="text-2xl font-bold text-[#152e5a] mb-4">Mentor Students</h3>
-              <p className="text-gray-700 mb-4">Share your experience and guide current students as they navigate their career paths.</p>
-              <a href="#" className="text-[#fec726] hover:underline font-semibold">Become a Mentor</a>
-            </div>
-            <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-              <h3 className="text-2xl font-bold text-[#152e5a] mb-4">Volunteer</h3>
-              <p className="text-gray-700 mb-4">Contribute your time and skills to various university initiatives and events.</p>
-              <a href="#" className="text-[#fec726] hover:underline font-semibold">Volunteer Opportunities</a>
-            </div>
-            <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-              <h3 className="text-2xl font-bold text-[#152e5a] mb-4">Give Back</h3>
-              <p className="text-gray-700 mb-4">Support scholarships, research, and campus development through your generous donations.</p>
-              <a href="#" className="text-[#fec726] hover:underline font-semibold">Make a Donation</a>
-            </div>
+      {/* GET INVOLVED */}
+      <section className="py-20 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-white">Get Involved</h2>
+            <p className="mt-3 text-white/40 max-w-lg mx-auto">Stay connected and help shape the next generation of Queenster graduates.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {INVOLVE.map((item) => (
+              <div key={item.title} className="rounded-2xl p-7 border border-white/10 hover:border-orange-500/30 transition-colors text-center"
+                style={{ background: "rgba(255,255,255,0.03)" }}>
+                <span className="text-5xl mb-5 block">{item.icon}</span>
+                <h3 className="font-bold text-white text-lg mb-3">{item.title}</h3>
+                <p className="text-white/55 text-sm leading-relaxed mb-6">{item.desc}</p>
+                <button className="px-6 py-2.5 rounded-full text-sm font-semibold text-orange-400 border border-orange-400/30 hover:bg-orange-400/10 transition-colors">
+                  {item.cta}
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </section>
     </div>
   );
-};
-
-export default Alumni;
+}

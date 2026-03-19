@@ -1,145 +1,153 @@
-import React from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 
-const Apply = () => {
+const STEPS = [
+  { n: "01", title: "Choose a Programme",  desc: "Browse our 240+ undergraduate and graduate programmes."            },
+  { n: "02", title: "Complete Application", desc: "Fill in your personal details, academics, and upload documents."   },
+  { n: "03", title: "Submit & Track",       desc: "Submit online and track your application status in real-time."     },
+  { n: "04", title: "Receive Decision",     desc: "Get your admission decision and confirm your enrolment."           },
+];
+
+const PROGRAMS = [
+  "Engineering & Technology", "Business Administration", "Computer Science",
+  "Liberal Arts & Humanities", "Medicine & Health Sciences", "Physics & Sciences",
+  "Law", "Education", "Other",
+];
+
+export default function Apply() {
+  const [step, setStep]     = useState(1);
+  const [form, setForm]     = useState({ firstName:"", lastName:"", email:"", phone:"", program:"", level:"", message:"" });
+  const [loading, setLoading] = useState(false);
+  const [done, setDone]     = useState(false);
+  const [error, setError]   = useState("");
+
+  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.firstName || !form.email || !form.program || !form.level) { setError("Please fill all required fields."); return; }
+    setError(""); setLoading(true);
+    await new Promise((r) => setTimeout(r, 1400));
+    setLoading(false); setDone(true);
+  };
+
+  const inputCls = "w-full rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/25 outline-none focus:ring-2 focus:ring-orange-500 transition-all";
+  const inputStyle = { background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" };
+
   return (
-    <div className="w-full bg-white text-gray-800">
+    <div style={{ background: "#071428", color: "#fff", minHeight: "100vh" }}>
+
       {/* HERO */}
-      <header
-        className="relative min-h-[60vh] flex items-end"
-        style={{
-          backgroundImage: "url(https://plus.unsplash.com/premium_photo-1663051238732-d6246f747dab?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTd8fHVuaXZlcnNpdHl8ZW58MHx8MHx8fDA%3D)",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      >
-        <div className="absolute inset-0 bg-/80"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-8 py-16 text-white">
-          <nav className="text-sm text-gray-200 mb-6">
-             
-          </nav>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-extrabold leading-tight mb-4">
-            Apply to Queenster
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden"
+        style={{ background: "linear-gradient(135deg,#0e2a4a 0%,#071428 100%)" }}>
+        <div className="relative max-w-4xl mx-auto text-center">
+          <span className="inline-flex items-center gap-2 text-orange-400 text-xs font-bold tracking-[0.22em] uppercase mb-5">
+            <span className="h-px w-6 bg-orange-400" /> Admissions 2025–26
+          </span>
+          <h1 className="text-5xl md:text-6xl font-black leading-tight">
+            Apply to <span className="text-orange-400">Queenster</span>
           </h1>
-          <p className="max-w-3xl text-base md:text-lg text-gray-200 leading-relaxed">
-            Embark on your academic journey at Queenster University. Our comprehensive application process is designed to identify passionate and talented individuals ready to contribute to our vibrant community.
+          <p className="mt-6 text-white/60 text-lg max-w-xl mx-auto">
+            Take the first step towards a world-class education. Applications are open for 2025–26.
           </p>
         </div>
-      </header>
+      </section>
 
-      {/* PAGE BODY */}
-      <main className="max-w-7xl mx-auto px-8 py-16 lg:py-24 space-y-20">
-
-        {/* Why Apply to Queenster */}
-        <section className="space-y-8">
-          <h2 className="text-4xl font-serif font-bold text-[#1f3a63] text-center">Why Apply to Queenster</h2>
-          <div className="grid md:grid-cols-2 gap-10 items-center">
-            <div>
-              <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                Queenster University offers a transformative educational experience that blends rigorous academics with real-world applications. Our diverse community fosters innovation, critical thinking, and personal growth.
-              </p>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                With state-of-the-art facilities, expert faculty, and extensive research opportunities, Queenster prepares students for leadership roles in an ever-changing global landscape.
-              </p>
-            </div>
-            <div className="bg-gray-50 p-8 rounded-lg shadow-md">
-              <h3 className="text-2xl font-bold text-[#1f3a63] mb-6">Key Benefits</h3>
-              <ul className="space-y-3 text-gray-700 text-lg">
-                <li>• Comprehensive academic programs</li>
-                <li>• Cutting-edge research facilities</li>
-                <li>• Dedicated faculty mentorship</li>
-                <li>• Vibrant campus life</li>
-                <li>• Career development support</li>
-              </ul>
-            </div>
+      {/* HOW IT WORKS */}
+      <section className="py-16 px-6" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-black text-white text-center mb-10">How to Apply</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {STEPS.map((s) => (
+              <div key={s.n} className="rounded-2xl p-6 border border-white/10 text-center"
+                style={{ background: "rgba(255,255,255,0.03)" }}>
+                <div className="text-3xl font-black text-orange-400 mb-3">{s.n}</div>
+                <h3 className="font-bold text-white text-sm mb-2">{s.title}</h3>
+                <p className="text-white/45 text-xs leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Admission Process */}
-        <section className="space-y-8">
-          <h2 className="text-4xl font-serif font-bold text-[#1f3a63] text-center">Admission Process</h2>
-          <div className="grid md:grid-cols-3 gap-10">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-[#1f3a63] text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold shadow-lg">1</div>
-              <h3 className="text-2xl font-bold mb-4">Submit Application</h3>
-              <p className="text-lg text-gray-600 leading-relaxed">Complete the online application form with all required documents and personal information.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-20 h-20 bg-[#1f3a63] text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold shadow-lg">2</div>
-              <h3 className="text-2xl font-bold mb-4">Review & Evaluation</h3>
-              <p className="text-lg text-gray-600 leading-relaxed">Our admissions team reviews your application, academic records, and supporting materials.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-20 h-20 bg-[#1f3a63] text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold shadow-lg">3</div>
-              <h3 className="text-2xl font-bold mb-4">Decision & Enrollment</h3>
-              <p className="text-lg text-gray-600 leading-relaxed">Receive your admission decision and complete enrollment to begin your Queenster journey.</p>
-            </div>
-          </div>
-        </section>
+      {/* APPLICATION FORM */}
+      <section className="py-20 px-6">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-3xl font-black text-white mb-2 text-center">Start Your Application</h2>
+          <p className="text-white/40 text-sm text-center mb-10">Fill in the form below and our admissions team will be in touch within 2 business days.</p>
 
-        {/* Admission Requirements */}
-        <section className="space-y-8">
-          <h2 className="text-4xl font-serif font-bold text-[#1f3a63] text-center">Admission Requirements</h2>
-          <div className="grid md:grid-cols-2 gap-10">
-            <div>
-              <h3 className="text-2xl font-bold text-[#1f3a63] mb-6">Undergraduate Requirements</h3>
-              <ul className="space-y-3 text-lg text-gray-600">
-                <li>• High school diploma or equivalent</li>
-                <li>• Minimum GPA of 3.0 (or equivalent)</li>
-                <li>• Standardized test scores (SAT/ACT)</li>
-                <li>• Letters of recommendation</li>
-                <li>• Personal statement</li>
-                <li>• English proficiency (for international students)</li>
-              </ul>
+          {done ? (
+            <div className="rounded-2xl p-12 border border-green-500/30 text-center" style={{ background: "rgba(34,197,94,0.06)" }}>
+              <div className="text-6xl mb-6">🎉</div>
+              <h3 className="text-2xl font-black text-white mb-3">Application Submitted!</h3>
+              <p className="text-white/55 mb-8">Thank you, {form.firstName}. Our admissions team will contact you at <span className="text-orange-400">{form.email}</span> within 2 business days.</p>
+              <Link href="/" className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-white text-sm"
+                style={{ background: "linear-gradient(135deg,#f97316,#ea580c)" }}>
+                Back to Home
+              </Link>
             </div>
-            <div>
-              <h3 className="text-2xl font-bold text-[#1f3a63] mb-6">Graduate Requirements</h3>
-              <ul className="space-y-3 text-lg text-gray-600">
-                <li>• Bachelor's degree from accredited institution</li>
-                <li>• Minimum GPA of 3.2 in undergraduate studies</li>
-                <li>• GRE/GMAT scores (program-specific)</li>
-                <li>• Professional resume</li>
-                <li>• Letters of recommendation</li>
-                <li>• Statement of purpose</li>
-              </ul>
-            </div>
-          </div>
-        </section>
+          ) : (
+            <form onSubmit={handleSubmit} className="rounded-2xl p-8 border border-white/10 space-y-5"
+              style={{ background: "rgba(255,255,255,0.02)" }}>
 
-        {/* How to Apply */}
-        <section className="space-y-8">
-          <h2 className="text-4xl font-serif font-bold text-[#1f3a63] text-center">How to Apply</h2>
-          <div className="bg-gray-50 p-10 rounded-lg shadow-md">
-            <div className="grid md:grid-cols-2 gap-10 items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {[["firstName","First Name *"],["lastName","Last Name"]].map(([k,lbl])=>(
+                  <div key={k}>
+                    <label className="block text-xs font-semibold text-white/45 uppercase tracking-wider mb-2">{lbl}</label>
+                    <input value={form[k]} onChange={set(k)} placeholder={lbl.replace(" *","")} className={inputCls} style={inputStyle} />
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {[["email","Email Address *","email"],["phone","Phone Number","tel"]].map(([k,lbl,type])=>(
+                  <div key={k}>
+                    <label className="block text-xs font-semibold text-white/45 uppercase tracking-wider mb-2">{lbl}</label>
+                    <input type={type} value={form[k]} onChange={set(k)} placeholder={lbl.replace(" *","")} className={inputCls} style={inputStyle} />
+                  </div>
+                ))}
+              </div>
+
               <div>
-                <h3 className="text-2xl font-bold text-[#1f3a63] mb-6">Online Application</h3>
-                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                  Start your application online through our secure portal. The process takes approximately 30-45 minutes to complete.
-                </p>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  You'll need to provide personal information, academic history, and upload required documents. Save your progress and return anytime.
-                </p>
+                <label className="block text-xs font-semibold text-white/45 uppercase tracking-wider mb-2">Programme of Interest *</label>
+                <select value={form.program} onChange={set("program")} className={inputCls} style={inputStyle}>
+                  <option value="">Select a programme…</option>
+                  {PROGRAMS.map((p)=>(<option key={p} value={p}>{p}</option>))}
+                </select>
               </div>
-              <div className="text-center">
-                <a
-                  href="#"
-                  className="inline-block bg-[#1f3a63] text-white px-10 py-4 rounded-lg font-semibold hover:bg-[#1f3a63]/90 transition-colors shadow-lg hover:shadow-xl"
-                >
-                  Start Application
-                </a>
-                <p className="text-sm text-gray-500 mt-4">Application Fee: $50</p>
-              </div>
-            </div>
-          </div>
-          <div className="text-center">
-            <p className="text-lg text-gray-600">
-              Need help? Contact our admissions office at <a href="mailto:admissions@queenster.edu" className="text-[#1f3a63] hover:underline font-semibold">admissions@queenster.edu</a> or call +91 9351946070.
-            </p>
-          </div>
-        </section>
 
-      </main>
+              <div>
+                <label className="block text-xs font-semibold text-white/45 uppercase tracking-wider mb-2">Study Level *</label>
+                <div className="flex gap-3 flex-wrap">
+                  {["Undergraduate","Postgraduate","PhD","Certificate"].map((l)=>(
+                    <button key={l} type="button" onClick={()=>setForm(f=>({...f,level:l}))}
+                      className="px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-150"
+                      style={{ background: form.level===l ? "#f97316" : "rgba(255,255,255,0.07)", color: form.level===l ? "#fff" : "rgba(255,255,255,0.55)" }}>
+                      {l}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-white/45 uppercase tracking-wider mb-2">Message (optional)</label>
+                <textarea value={form.message} onChange={set("message")} rows={4} placeholder="Tell us a bit about yourself and your goals…"
+                  className={inputCls + " resize-none"} style={inputStyle} />
+              </div>
+
+              {error && <p className="text-red-400 text-sm">{error}</p>}
+
+              <button type="submit" disabled={loading}
+                className="w-full py-4 rounded-xl font-bold text-white text-sm transition-all duration-200 hover:scale-[1.01] disabled:opacity-60 flex items-center justify-center gap-2"
+                style={{ background: "linear-gradient(135deg,#f97316,#ea580c)" }}>
+                {loading ? (
+                  <><div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />Submitting…</>
+                ) : "Submit Application →"}
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
     </div>
   );
-};
-
-export default Apply;
+}
