@@ -36,10 +36,9 @@ const KNOWN_SLUGS = [
 
 /* ---- getStaticPaths ---- */
 export async function getStaticPaths() {
-  const paths = KNOWN_SLUGS.map((slug) => ({
-    params: { slug },
-  }));
-  return { paths, fallback: "blocking" };
+  // Return empty paths and use fallback: "blocking" so pages are rendered
+  // on-demand at request time — avoids needing a live API during build.
+  return { paths: [], fallback: "blocking" };
 }
 
 /* ---- getStaticProps ---- */

@@ -1,4 +1,5 @@
 import apiFetch from '../../lib/api';
+import { fetchDynamicPage } from '../../lib/fetchDynamicPage';
 
 export async function getStaticPaths() {
   try {
@@ -30,17 +31,17 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   try {
-    const { data } = await fetchDynamicPage(params.slug);
+    const result = await fetchDynamicPage(params.slug);
 
-    if (!data) {
+    if (!result.ok || !result.data) {
       return { notFound: true };
     }
 
     return {
       props: {
-        pageData: data,
+        pageData: result.data,
       },
-      revalidate: 60, // ISR - refresh every 60 seconds
+      revalidate: 60,
     };
   } catch (error) {
     console.error('Error in getStaticProps:', error);

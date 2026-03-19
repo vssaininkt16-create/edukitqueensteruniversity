@@ -28,6 +28,6 @@ export async function getStaticProps() {
       revalidate: 60,
     };
   } catch (error) {
-    return { notFound: true };
+    return { props: { pageData: {}, contentBlock: {} }, revalidate: 60 };
   }
 }

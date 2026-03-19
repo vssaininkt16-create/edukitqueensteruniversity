@@ -17,7 +17,7 @@ export async function getStaticProps() {
     };
   } catch (error) {
     console.error("Academics fetch error:", error);
-    return { notFound: true };
+    return { props: { contentBlock: {} }, revalidate: 60 };
   }
 }
 
